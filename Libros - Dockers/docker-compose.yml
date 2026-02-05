@@ -1,0 +1,30 @@
+name: fastapi-libros
+
+services:
+  fastapi-db:
+    image: mysql:8.0
+    container_name: fastapi-db-libros
+    environment:
+      MYSQL_ROOT_PASSWORD: quevedo
+      MYSQL_DATABASE: librosdb
+      MYSQL_USER: quevedo
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  fastapi-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastapi-app-libros
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      fastapi-db:
+        condition: service_healthy
