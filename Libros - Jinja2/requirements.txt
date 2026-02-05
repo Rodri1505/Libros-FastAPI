@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+jinja2
+python-multipart
+pyscopg2
+psycopg3
+asyncpg
